@@ -1,1 +1,33 @@
 # albumuploader
+
+Simple Python album uploader: HTML UI → Flask → S3 + SQS + DynamoDB.
+On upload, the handler stores the image in S3, sends a message to SQS, and writes metadata to DynamoDB — all in one request.
+
+AWS auth uses the default boto3 credential chain, so an attached IAM role (EC2 instance profile, ECS task role, IRSA, or local `AWS_PROFILE`) is used automatically — no keys in code.
+
+## AWS resources you need
+
+- **S3 bucket** — stores the images.
+- **SQS queue** — receives an upload event per image.
+- **DynamoDB table** — partition key `album` (String), sort key `image_id` (String).
+
+## Setup
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env   # edit values
+```
+
+## Run
+
+```bash
+python app.py
+```
+Open http://localhost:5000
+
+## Endpoints
+
+- `GET  /` — upload form
+- `POST /upload` — multipart: `image`, `album`, `title`, `description`
+- `GET  /albums/<album>` — list metadata for an album
