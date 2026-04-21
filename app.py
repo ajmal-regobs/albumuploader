@@ -28,6 +28,11 @@ def index():
     return render_template("index.html")
 
 
+@app.get("/health")
+def health():
+    return jsonify({"status": "ok"}), 200
+
+
 @app.post("/upload")
 def upload():
     file = request.files.get("image")

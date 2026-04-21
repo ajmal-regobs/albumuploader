@@ -29,5 +29,15 @@ Open http://localhost:5000
 ## Endpoints
 
 - `GET  /` — upload form
+- `GET  /health` — liveness check, returns `{"status":"ok"}`
 - `POST /upload` — multipart: `image`, `album`, `title`, `description`
 - `GET  /albums/<album>` — list metadata for an album
+
+## Docker
+
+```bash
+docker build -t albumuploader .
+docker run --rm -p 5000:5000 --env-file .env albumuploader
+```
+
+Runs gunicorn on port 5000. On AWS (ECS/EKS/EC2), attach the IAM role to the task/pod/instance — no keys needed.
