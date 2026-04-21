@@ -81,7 +81,14 @@ def list_album(album):
         KeyConditionExpression="album = :a",
         ExpressionAttributeValues={":a": album},
     )
-    return jsonify(resp.get("Items", []))
+    items = resp.get("Items", [])
+    for item in items:
+        item["url"] = s3.generate_presigned_url(
+            "get_object",
+            Params={"Bucket": item["s3_bucket"], "Key": item["s3_key"]},
+            ExpiresIn=3600,
+        )
+    return jsonify(items)
 
 
 if __name__ == "__main__":
