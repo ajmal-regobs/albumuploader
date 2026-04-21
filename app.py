@@ -8,7 +8,7 @@ from aws_clients import s3, sqs, dynamodb
 from config import (
     S3_BUCKET,
     SQS_QUEUE_URL,
-    DYNAMO_TABLE,
+    DYNAMODB_TABLE,
     ALLOWED_EXTENSIONS,
     MAX_CONTENT_LENGTH,
 )
@@ -16,7 +16,7 @@ from config import (
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_LENGTH
 
-table = dynamodb.Table(DYNAMO_TABLE)
+table = dynamodb.Table(DYNAMODB_TABLE)
 
 
 def allowed(filename: str) -> bool:

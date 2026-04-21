@@ -11,6 +11,8 @@ AWS auth uses the default boto3 credential chain, so an attached IAM role (EC2 i
 - **SQS queue** — receives an upload event per image.
 - **DynamoDB table** — partition key `album` (String), sort key `image_id` (String).
 
+Required env vars: `AWS_REGION`, `S3_BUCKET`, `SQS_QUEUE_URL`, `DYNAMODB_TABLE`.
+
 ## Setup
 
 ```bash
